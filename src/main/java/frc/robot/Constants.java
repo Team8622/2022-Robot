@@ -15,5 +15,9 @@ public class Constants {
         public static final int driveLeft2 = 2;
         public static final int driveRight1 = 3;
         public static final int driveRight2 = 4;
+
+        //Tank Drive Controller Indexes
+        public static final int leftYAxis = 1;
+        public static final int rightYAxis = 5;
     }
 }
