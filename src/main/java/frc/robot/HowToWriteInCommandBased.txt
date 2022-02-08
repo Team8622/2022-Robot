@@ -1,0 +1,32 @@
+
+We're switching to Command Based code to write our robot code, so here's a breif explanation of
+all the major players.
+
+I've already created the major players, "Robot.java", "RobotContainer.java", etc, and written up a 
+version of the DriveTrain so you can see how this all works together. 
+
+************************************  What is a SubSystem File?  ************************************
+The class files that go into the subsystems folder (e.g. "DriveTrain.java" "Shooter.java" "Gyro.java") 
+are essentially definitions for objects on the robot. We're telling the code what each element of each 
+portion of the bot can do and what it consists of (e.g. motor controllers) so we can control this type
+of object with commands later.
+
+*************************************  What is a Command File?  *************************************
+Our command files will represent specific things we want the robot to do (e.g. "Drive_TankDrive" 
+"TurnToAngle"). We will call upon our SubSystem objects to execute them. They should pretty clearly
+represent the real life action. 
+
+**************************************  How do we Use These?  ***************************************
+The structure of our code should resemble this:
+    Robot.java 
+        sets up robot-wide things, like initial settings, autonomous code, and calling our CommandChooser 
+        to make the robot do stuff.
+    RobotContainer.java 
+        where we will declare/initialize all of our robot objects, like the drivetrain and the Shooter
+    Constants.java
+        we put all of our constant values here (stuff that shouldn't change while the bot is running
+        but we may need to adjust for troubleshooting (e.g. CANbus IDs for all the motors)).
+    Main.java
+        literally don't touch it. It starts the robot, that's it.
+    ControlChooser.java
+        call different command files based on joystick buttons and stuff.
