@@ -4,13 +4,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
-import frc.robot.misc.ControlChooser;
+import frc.robot.misc.Controls;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 
 public class DriveTrain_TankDrive extends CommandBase{
     //this looks useful but I literally do not think its used anywhere else
-    //double driveSpeed = 10; //maximum percentage of motor to use
+    double driveSpeed = 10; //maximum percentage of motor to use
     
     /**
      * Creates a new DriveTrain_TankDrive
@@ -29,8 +29,8 @@ public class DriveTrain_TankDrive extends CommandBase{
     @Override
     public void execute() {
         RobotContainer.m_driveTrain.TankDrive(
-            -ControlChooser.stick.getRawAxis(Constants.CANBusID.leftYAxis),
-            -ControlChooser.stick.getRawAxis(Constants.CANBusID.rightYAxis)
+            -Controls.stick.getRawAxis(Constants.CANBusID.leftYAxis),
+            -Controls.stick.getRawAxis(Constants.CANBusID.rightYAxis)
         );
     }
 

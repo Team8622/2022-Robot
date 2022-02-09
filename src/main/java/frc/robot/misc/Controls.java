@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotContainer;
 //import commands to be connected to joystick buttons
 
-public class ControlChooser {
+public class Controls {
     public static Joystick stick = new Joystick(0);
     //public static Joystick rightJoy = new Joystick(1);
 
