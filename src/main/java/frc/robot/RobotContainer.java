@@ -4,7 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
 import frc.robot.commands.DriveTrain_TankDrive;
-import frc.robot.commands.shooter_instant;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -19,7 +19,6 @@ public class RobotContainer {
     public static final Command m_arcadeDrive = new DriveTrain_ArcadeDrive(m_driveTrain);
 
     public static final Shooter m_shooter = new Shooter();
-    public static final Command m_shooter_instant = new Shooter_Instant()
 
     public RobotContainer() {
         configureButtonBindings();
