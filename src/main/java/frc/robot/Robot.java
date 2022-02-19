@@ -9,6 +9,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.gyro;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.TimedRobot;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 //import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,6 +30,7 @@ public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
+  Thread m_visionThread;
 
   private RobotContainer m_robotContainer;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -31,30 +41,33 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    new Thread(() -> {
-      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    m_visionThread =
+    new Thread(
+        () -> {
+          UsbCamera camera = CameraServer.startAutomaticCapture();
+          camera.setResolution(640, 480);
+          CvSink cvSink = CameraServer.getVideo();
+          CvSource outputStream = CameraServer.putVideo("Rectangle", 640, 480);
+          Mat mat = new Mat();
+          while (!Thread.interrupted()) {
+            if (cvSink.grabFrame(mat) == 0) {
+              outputStream.notifyError(cvSink.getError());
+              continue;
+            }
+            Imgproc.rectangle(
+                mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
 
-      camera.setResolution(640, 480);
+            outputStream.putFrame(mat);
+          }
+        });
+m_visionThread.setDaemon(true);
+m_visionThread.start();
+}
 
-      CvSink cvSink = CameraServer.getInstance().getVideo();
-      CvSource outputStream = CameraServer.getInstance().putVideo("Blur",640,480);
-    
-      Mat source = new Mat();
-      Mat output = new Mat();
-
-      while(!Thread.interrupted()){
-        if(cvSink.grabFrame(source)==0) {
-          continue;
-        }
-        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-        outputStream.putFrame(output);
-        }
-      }).start();
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);
     // SmartDashboard.putData("Auto choices", m_chooser);
-    m_robotContainer = new RobotContainer();
-  }
+    RobotContainer = new RobotContainer();
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
