@@ -30,6 +30,25 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    new Thread(() -> {
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+
+      camera.setResolution(640, 480);
+
+      CvSink cvSink = CameraServer.getInstance().getVideo();
+      CvSource outputStream = CameraServer.getInstance().putVideo("Blur",640,480);
+    
+      Mat source = new Mat();
+      Mat output = new Mat();
+
+      while(!Thread.interrupted()){
+        if(cvSink.grabFrame(source)==0) {
+          continue;
+        }
+        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+        outputStream.putFrame(output);
+        }
+      }).start();
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);
     // SmartDashboard.putData("Auto choices", m_chooser);
