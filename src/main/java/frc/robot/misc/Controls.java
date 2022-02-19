@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 //import frc.robot.RobotContainer;
 //import commands to be connected to joystick buttons
@@ -17,7 +18,7 @@ public class Controls {
 
     //Define buttons here
     //Button exampleButton = new JoystickButton(exampleJoystick, index).whenPressed(new command());
-    Button shooterButton = new JoystickButton(stick, 1).whenPressed(new Shooter_Instant());
+    Button shooterButton = new JoystickButton(stick, 1).whenPressed(new InstantCommand(!RobotContainer.m_shooter.isshooteron? RobotContainer.m_shooter.shooteron() : RobotContainer.m_shooter.shooteroff()));
 
     //if we want to configure this for different drivers
 }
