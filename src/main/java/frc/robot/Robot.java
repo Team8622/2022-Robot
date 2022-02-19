@@ -67,7 +67,13 @@ m_visionThread.start();
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);
     // SmartDashboard.putData("Auto choices", m_chooser);
+<<<<<<< HEAD
     RobotContainer = new RobotContainer();
+=======
+    m_robotContainer = new RobotContainer();
+    
+  }
+>>>>>>> 2daff2f8d9070f2b107fe8bf4a5eaa18105f493f
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
