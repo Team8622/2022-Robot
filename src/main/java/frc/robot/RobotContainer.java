@@ -1,9 +1,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
 import frc.robot.commands.DriveTrain_TankDrive;
+import frc.robot.commands.Shooter_Instant;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.gyro;
@@ -22,6 +27,9 @@ public class RobotContainer {
     public static final Command m_tankDrive = new DriveTrain_TankDrive(m_driveTrain);
     public static final Command m_arcadeDrive = new DriveTrain_ArcadeDrive(m_driveTrain);
 
+    public static final Joystick stick = new Joystick(0);
+    public static final JoystickButton shooterButton = new JoystickButton(stick, 1); 
+
     public RobotContainer() {
         configureButtonBindings();
         m_gyro.init();
@@ -36,6 +44,8 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        //shooterButton.whenPressed(new InstantCommand(m_shooter :: shooteron, m_shooter));
+        shooterButton.whenPressed(new Shooter_Instant());
     }
 
 
