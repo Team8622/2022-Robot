@@ -6,6 +6,7 @@ import frc.robot.commands.DriveTrain_ArcadeDrive;
 import frc.robot.commands.DriveTrain_TankDrive;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.gyro;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -15,13 +16,15 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class RobotContainer {
     public static final DriveTrain m_driveTrain = new DriveTrain();
+    public static final Shooter m_shooter = new Shooter();
+    public static final gyro m_gyro = new gyro();
+
     public static final Command m_tankDrive = new DriveTrain_TankDrive(m_driveTrain);
     public static final Command m_arcadeDrive = new DriveTrain_ArcadeDrive(m_driveTrain);
 
-    public static final Shooter m_shooter = new Shooter();
-
     public RobotContainer() {
         configureButtonBindings();
+        m_gyro.init();
         //place any object initializaition code here
     }
 
