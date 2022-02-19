@@ -15,10 +15,9 @@ import frc.robot.subsystems.Shooter;
 public class Controls {
     public static Joystick stick = new Joystick(0);
     //public static Joystick rightJoy = new Joystick(1);
-
     //Define buttons here
     //Button exampleButton = new JoystickButton(exampleJoystick, index).whenPressed(new command());
-    Button shooterButton = new JoystickButton(stick, 1).whenPressed(new InstantCommand(!RobotContainer.m_shooter.isshooteron? RobotContainer.m_shooter.shooteron() : RobotContainer.m_shooter.shooteroff()));
-
+    //Button shooterButton = new JoystickButton(stick, 1).whenPressed(new InstantCommand(RobotContainer.m_shooter :: shooteron, RobotContainer.m_shooter));
+    Button shooter_button = new JoystickButton(stick,1).whenReleased(new Shooter_Instant());
     //if we want to configure this for different drivers
 }
