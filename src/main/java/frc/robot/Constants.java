@@ -19,5 +19,15 @@ public class Constants {
         //Tank Drive Controller Indexes
         public static final int leftYAxis = 1;
         public static final int rightYAxis = 5;
+
+        //Shooter Controller Indexes
+        public static final int leftShooterMotor = 7;
+        public static final int rightShooterMotor = 8;
+
+    }
+
+    public static final class ShooterConstants{
+        //motor speed measured in RPMS (I hope)
+        public static final int shootermotorspeed = 1000;
     }
 }
