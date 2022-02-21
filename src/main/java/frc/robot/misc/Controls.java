@@ -20,8 +20,8 @@ public class Controls {
     //Button exampleButton = new JoystickButton(exampleJoystick, index).whenPressed(new command());
     //Button shooterButton = new JoystickButton(stick, 1).whenPressed(new InstantCommand(RobotContainer.m_shooter :: shooteron, RobotContainer.m_shooter));
     public static void run(){
-        Button shooter_button = new JoystickButton(stick,1);
-        shooter_button.whenPressed(new Shooter_Instant());
+       // Button shooter_button = new JoystickButton(stick,1);
+        //shooter_button.whenPressed(new Shooter_Instant());
     }
     //if we want to configure this for different drivers
 }
