@@ -71,7 +71,6 @@ public void init(){
 
   @Override
   public void periodic() {
-  
     // double velocity_out;
     // motorspeed = SmartDashboard.getNumber("Shooter Velocity", 0);
     
@@ -84,25 +83,26 @@ public void init(){
     // double max = SmartDashboard.getNumber("Max Output", 0);
     // double min = SmartDashboard.getNumber("Min Output", 0);
 
-  //   // if PID coefficients on SmartDashboard have changed, write new values to controller
-  //   if((p != kP)) { m_pidController.setP(p); kP = p; }
-  //   if((i != kI)) { m_pidController.setI(i); kI = i; }
-  //   if((d != kD)) { m_pidController.setD(d); kD = d; }
-  //   if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
-  //   if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
-  //   if((max != kMaxOutput) || (min != kMinOutput)) { 
-  //     m_pidController.setOutputRange(min, max); 
-  //     kMinOutput = min; kMaxOutput = max; 
-  //   }
-  //   try {
-  //     velocity_out = m_encoder.getVelocity();
-  //   } catch (RuntimeException ex){
-  //     DriverStation.reportError("Shooter: Not able to get velocity " + ex.getMessage(),true);
-  //     velocity_out = 0;
-  //   }
-  //   SmartDashboard.putNumber("Shooter motor Velocity",velocity_out);
-  //   SmartDashboard.putNumber("Output", m_leftleadMotor.getAppliedOutput());
-}
+    //   // if PID coefficients on SmartDashboard have changed, write new values to controller
+    //   if((p != kP)) { m_pidController.setP(p); kP = p; }
+    //   if((i != kI)) { m_pidController.setI(i); kI = i; }
+    //   if((d != kD)) { m_pidController.setD(d); kD = d; }
+    //   if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
+    //   if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
+    //   if((max != kMaxOutput) || (min != kMinOutput)) { 
+    //     m_pidController.setOutputRange(min, max); 
+    //     kMinOutput = min; kMaxOutput = max; 
+    //   }
+    //   try {
+    //     velocity_out = m_encoder.getVelocity();
+    //   } catch (RuntimeException ex){
+    //     DriverStation.reportError("Shooter: Not able to get velocity " + ex.getMessage(),true);
+    //     velocity_out = 0;
+    //   }
+    //   SmartDashboard.putNumber("Shooter motor Velocity",velocity_out);
+    //   SmartDashboard.putNumber("Output", m_leftleadMotor.getAppliedOutput());
+  }
+
  public boolean isshooteron = false;
  public void shooteron(){
    
