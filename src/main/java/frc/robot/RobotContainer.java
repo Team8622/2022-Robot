@@ -4,14 +4,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
 import frc.robot.commands.DriveTrain_TankDrive;
 import frc.robot.commands.Shooter_Instant;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.gyro;
+//import frc.robot.gyro;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -29,6 +29,16 @@ public class RobotContainer {
 
     public static final Joystick stick = new Joystick(0);
     public static final JoystickButton shooterButton = new JoystickButton(stick, 1); 
+    Button button1 = new JoystickButton(stick, 1),
+          button2 = new JoystickButton(stick, 2),
+          button3 = new JoystickButton(stick, 3),
+          button4 = new JoystickButton(stick, 4),
+          button5 = new JoystickButton(stick, 5),
+          button6 = new JoystickButton(stick, 6),
+          button7 = new JoystickButton(stick, 7),
+          button8 = new JoystickButton(stick, 8);
+
+    public static final Joystick controller = new Joystick(1);
 
     public RobotContainer() {
         configureButtonBindings();
@@ -45,7 +55,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         //shooterButton.whenPressed(new InstantCommand(m_shooter :: shooteron, m_shooter));
-        shooterButton.whenPressed(new Shooter_Instant());
+        button1.whenPressed(new Shooter_Instant());
     }
 
 
