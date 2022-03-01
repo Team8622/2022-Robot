@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
-import frc.robot.misc.Controls;
 import frc.robot.subsystems.DriveTrain;
 //import frc.robot.Constants;
 
@@ -23,8 +22,8 @@ public class DriveTrain_ArcadeDrive extends CommandBase{
     @Override
     public void execute(){
         RobotContainer.m_driveTrain.ArcadeDrive(
-            -Controls.stick.getZ(),
-            Controls.stick.getY()
+            -RobotContainer.stick.getZ(),
+            RobotContainer.stick.getY()
         );
     }
 }

@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    //camera code
     m_visionThread =
     new Thread(
         () -> {
@@ -63,6 +64,7 @@ public class Robot extends TimedRobot {
         });
   m_visionThread.setDaemon(true);
   m_visionThread.start();
+  //end camera code
 
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);

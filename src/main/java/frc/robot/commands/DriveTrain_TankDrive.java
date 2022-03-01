@@ -4,7 +4,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
-import frc.robot.misc.Controls;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
 
@@ -29,8 +28,8 @@ public class DriveTrain_TankDrive extends CommandBase{
     @Override
     public void execute() {
         RobotContainer.m_driveTrain.TankDrive(
-            -Controls.stick.getRawAxis(Constants.CANBusID.leftYAxis),
-            -Controls.stick.getRawAxis(Constants.CANBusID.rightYAxis)
+            -RobotContainer.stick.getRawAxis(Constants.CANBusID.leftYAxis),
+            -RobotContainer.stick.getRawAxis(Constants.CANBusID.rightYAxis)
         );
     }
 

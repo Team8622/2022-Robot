@@ -27,8 +27,12 @@ public class RobotContainer {
     public static final Command m_tankDrive = new DriveTrain_TankDrive(m_driveTrain);
     public static final Command m_arcadeDrive = new DriveTrain_ArcadeDrive(m_driveTrain);
 
+    //buttons for the flightstick
     public static final Joystick stick = new Joystick(0);
     public static final JoystickButton shooterButton = new JoystickButton(stick, 1); 
+
+    //buttons for controller 
+    public static final Joystick controller = new Joystick(1);
 
     public RobotContainer() {
         configureButtonBindings();

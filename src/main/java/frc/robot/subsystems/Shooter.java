@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase{
  //shooter Controlers(right side)
 private CANSparkMax m_leftleadMotor;
 private CANSparkMax m_rightfollowMotor;
-private SparkMaxPIDController m_pidController;
+//private SparkMaxPIDController m_pidController;
 //private RelativeEncoder m_encoder;
 public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 public double motorspeed;
@@ -32,30 +32,30 @@ public void init(){
         m_leftleadMotor.restoreFactoryDefaults();
         m_rightfollowMotor.restoreFactoryDefaults();
         m_rightfollowMotor.follow(m_leftleadMotor, true); //Reverses motor
-        //m_rightfollowMotor.setInverted(true);  Doesn't work for follower
-        m_pidController = m_leftleadMotor.getPIDController();
+        //m_pidController = m_leftleadMotor.getPIDController();
         //m_encoder = m_leftleadMotor.getEncoder();
         } catch (RuntimeException ex){
             DriverStation.reportError("error loading failed" + ex.getMessage(), true);
         }
     motorspeed = Constants.ShooterConstants.shootermotorspeed;
+    
     // PID coefficients
-    kP = 6e-5; 
-    kI = 0;
-    kD = 0; 
-    kIz = 0; 
-    kFF = 0.000015; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
-    maxRPM = 5700;
+    // kP = 6e-5; 
+    // kI = 0;
+    // kD = 0; 
+    // kIz = 0; 
+    // kFF = 0.000015; 
+    // kMaxOutput = 1; 
+    // kMinOutput = -1;
+    // maxRPM = 5700;
 
     // set PID coefficients
-    m_pidController.setP(kP);
-    m_pidController.setI(kI);
-    m_pidController.setD(kD);
-    m_pidController.setIZone(kIz);
-    m_pidController.setFF(kFF);
-    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    // m_pidController.setP(kP);
+    // m_pidController.setI(kI);
+    // m_pidController.setD(kD);
+    // m_pidController.setIZone(kIz);
+    // m_pidController.setFF(kFF);
+    // m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
     // display PID coefficients on SmartDashboard
     // SmartDashboard.putNumber("P Gain", kP);
@@ -107,7 +107,7 @@ public void init(){
  public void shooteron(){
    
    //m_leftleadMotor.set(motorspeed);
-   m_pidController.setReference(motorspeed, ControlType.kVelocity);
+   //m_pidController.setReference(motorspeed, ControlType.kVelocity);
    //m_rightfollowMotor.set(-motorspeed);
    SmartDashboard.putBoolean("shooteron", true);
    isshooteron = true;
