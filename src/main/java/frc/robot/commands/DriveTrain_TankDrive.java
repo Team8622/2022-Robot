@@ -28,8 +28,8 @@ public class DriveTrain_TankDrive extends CommandBase{
     @Override
     public void execute() {
         RobotContainer.m_driveTrain.TankDrive(
-            -RobotContainer.stick.getRawAxis(Constants.CANBusID.leftYAxis),
-            -RobotContainer.stick.getRawAxis(Constants.CANBusID.rightYAxis)
+            -RobotContainer.stick.getRawAxis(Constants.ControllerConstants.leftYAxis),
+            -RobotContainer.stick.getRawAxis(Constants.ControllerConstants.rightYAxis)
         );
     }
 
