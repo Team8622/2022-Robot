@@ -23,7 +23,7 @@ public class DriveTrain_ArcadeDrive extends CommandBase{
     public void execute(){
         RobotContainer.m_driveTrain.ArcadeDrive(
             RobotContainer.stick.getZ(),
-            -RobotContainer.stick.getY()
+            -RobotContainer.stick.getY() * 0.75
         );
     }
 }

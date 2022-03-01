@@ -37,6 +37,7 @@ public class RobotContainer {
     public RobotContainer() {
         configureButtonBindings();
         m_gyro.init();
+        m_shooter.init();
         //place any object initializaition code here
     }
 
