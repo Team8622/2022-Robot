@@ -109,7 +109,7 @@ public void init(){
    m_leftleadMotor.set(-motorspeed);
    //m_pidController.setReference(-motorspeed, ControlType.kVelocity);
    m_rightfollowMotor.set(motorspeed);
-   SmartDashboard.putBoolean("shooteron", true);
+   SmartDashboard.putBoolean("Shooter On", true);
    isshooteron = true;
  }
  public void shooteroff(){
@@ -118,7 +118,7 @@ public void init(){
   m_leftleadMotor.set(0);
   m_rightfollowMotor.set(0);
 
-  SmartDashboard.putBoolean("shooteron", false);
+  SmartDashboard.putBoolean("Shooter On", false);
   isshooteron = false;
  }
 }

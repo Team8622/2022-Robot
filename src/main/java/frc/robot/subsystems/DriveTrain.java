@@ -16,6 +16,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANBusID;
 
@@ -31,18 +32,34 @@ public class DriveTrain extends SubsystemBase{
 
   DifferentialDrive m_drive = new DifferentialDrive(m_leftlead, m_rightlead);
 
+  //setting initial restrictions on the drive and rotation speeds
+  double drivespeed = 0.75;
+  double rotationspeed = 0.5;
+
+  public void init(){
+
+    SmartDashboard.putNumber("Drive Speed", drivespeed);
+    SmartDashboard.putNumber("Rotation Speed", rotationspeed);
+  }
+
+  @Override
+  public void periodic(){
+    drivespeed = SmartDashboard.getNumber("Drive Speed", 0.75);
+    rotationspeed = SmartDashboard.getNumber("Rotation Speed", 0.5);
+  }
 
   public void TankDrive(double left, double right){
       m_leftfollow.follow(m_leftlead);
       m_rightfollow.follow(m_rightlead);
 
-      m_drive.tankDrive(left, right);
+      m_drive.tankDrive(left * drivespeed, right * drivespeed);
   }
 
   public void ArcadeDrive(double xSpeed, double zRotation){
       m_leftfollow.follow(m_leftlead);
       m_rightfollow.follow(m_rightlead);
 
-      m_drive.arcadeDrive(xSpeed, zRotation);
+      //I know this looks backwards but trust me.
+      m_drive.arcadeDrive(xSpeed * rotationspeed, zRotation * drivespeed);
   }
 }

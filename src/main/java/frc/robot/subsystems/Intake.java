@@ -55,13 +55,13 @@ public class Intake extends SubsystemBase{
     public boolean isintakeon = false;
     public void intakeon(){
         m_intakeMotor.set(motorspeed);
-        SmartDashboard.putBoolean("intakeon", true);
+        SmartDashboard.putBoolean("Intake On", true);
         isintakeon = true;
     }
 
     public void intakeoff(){
         m_intakeMotor.set(0);
-        SmartDashboard.putBoolean("intakeon", false);
+        SmartDashboard.putBoolean("Intake On", false);
         isintakeon = false;
     }
 }

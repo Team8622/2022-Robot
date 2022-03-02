@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   Thread m_visionThread;
 
-  private RobotContainer m_robotContainer;
+  public RobotContainer m_robotContainer;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   /**
