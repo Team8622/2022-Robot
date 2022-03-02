@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
+//import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -106,16 +106,17 @@ public void init(){
  public boolean isshooteron = false;
  public void shooteron(){
    
-   //m_leftleadMotor.set(motorspeed);
-   m_pidController.setReference(-motorspeed, ControlType.kVelocity);
-   //m_rightfollowMotor.set(-motorspeed);
+   m_leftleadMotor.set(-motorspeed);
+   //m_pidController.setReference(-motorspeed, ControlType.kVelocity);
+   m_rightfollowMotor.set(motorspeed);
    SmartDashboard.putBoolean("shooteron", true);
    isshooteron = true;
  }
  public void shooteroff(){
    
-  m_pidController.setReference(motorspeed, ControlType.kVelocity);
+  //m_pidController.setReference(motorspeed, ControlType.kVelocity);
   m_leftleadMotor.set(0);
+  m_rightfollowMotor.set(0);
 
   SmartDashboard.putBoolean("shooteron", false);
   isshooteron = false;

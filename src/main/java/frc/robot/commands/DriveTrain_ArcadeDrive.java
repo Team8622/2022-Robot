@@ -22,8 +22,8 @@ public class DriveTrain_ArcadeDrive extends CommandBase{
     @Override
     public void execute(){
         RobotContainer.m_driveTrain.ArcadeDrive(
-            RobotContainer.stick.getZ(),
-            -RobotContainer.stick.getY() * 0.75
+            RobotContainer.stick.getX(),
+            -RobotContainer.stick.getY()
         );
     }
 }
