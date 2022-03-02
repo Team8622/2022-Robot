@@ -36,6 +36,7 @@ public class Constants {
 
     public static final class SpeedConstants{
         //motor speed measured in RPMS (I hope)
-        public static final int shootermotorspeed = 5000;
+        public static final int shootermotorspeed = 10800;
+        public static final int intakemotorspeed = 6000;
     }
 }

@@ -1,3 +1,5 @@
+//WE ARE NOT CURRENTLY USING THIS CLASS, FORGET IT EVER EXISTED
+
 // package frc.robot.misc;
 
 // import edu.wpi.first.wpilibj.Joystick;
