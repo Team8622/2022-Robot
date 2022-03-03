@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
 import frc.robot.commands.DriveTrain_TankDrive;
 import frc.robot.commands.Intake_Instant;
+import frc.robot.commands.Intake_Reverse;
 import frc.robot.commands.Shooter_Instant;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -33,7 +34,8 @@ public class RobotContainer {
     //buttons for the flightstick
     public static final Joystick stick = new Joystick(0);
     public static final JoystickButton intakeButton  = new JoystickButton(stick, 1);
-    public static final JoystickButton shooterButton = new JoystickButton(stick, 2); 
+    public static final JoystickButton intakeReverse = new JoystickButton(stick, 2);
+    public static final JoystickButton shooterButton = new JoystickButton(stick, 12); 
 
     //buttons for controller 
     public static final Joystick controller = new Joystick(1);
@@ -42,6 +44,7 @@ public class RobotContainer {
         configureButtonBindings();
         m_gyro.init();
         m_shooter.init();
+        m_intake.init();
         //place any object initializaition code here
     }
 
@@ -56,7 +59,8 @@ public class RobotContainer {
         //shooterButton.whenPressed(new InstantCommand(m_shooter :: shooteron, m_shooter));
         intakeButton.whenPressed(new Intake_Instant());
         intakeButton.whenReleased(new Intake_Instant());
-        
+        intakeReverse.whenPressed(new Intake_Reverse());
+        intakeReverse.whenReleased(new Intake_Reverse());
         shooterButton.whenPressed(new Shooter_Instant());
     }
 

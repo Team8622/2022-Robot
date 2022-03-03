@@ -59,6 +59,12 @@ public class Intake extends SubsystemBase{
         isintakeon = true;
     }
 
+    public void reverseon(){
+        m_intakeMotor.set(-motorspeed * 0.25);
+        SmartDashboard.putBoolean("Intake On", true);
+        isintakeon = true;
+    }
+
     public void intakeoff(){
         m_intakeMotor.set(0);
         SmartDashboard.putBoolean("Intake On", false);
