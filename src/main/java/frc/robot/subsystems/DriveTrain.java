@@ -35,6 +35,7 @@ public class DriveTrain extends SubsystemBase{
   //setting initial restrictions on the drive and rotation speeds
   double drivespeed = 0.75;
   double rotationspeed = 0.5;
+  public boolean fieldoriented = false;
 
   public void init(){
 

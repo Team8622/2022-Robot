@@ -2,7 +2,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.DriverStation;
 
 //call the gyro and enable the measuring
@@ -10,7 +10,7 @@ public class gyro extends SubsystemBase {
     public static AHRS ahrs;
     public void init() {
         try {
-            ahrs = new AHRS(SerialPort.Port.kUSB1);
+            ahrs = new AHRS(I2C.Port.kOnboard);
             ahrs.enableLogging(true);
         } 
         catch (RuntimeException ex ) {

@@ -11,6 +11,7 @@ import frc.robot.commands.DriveTrain_TankDrive;
 import frc.robot.commands.Intake_Instant;
 import frc.robot.commands.Intake_Reverse;
 import frc.robot.commands.Shooter_Instant;
+import frc.robot.commands.Field_Instant;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
@@ -31,21 +32,24 @@ public class RobotContainer {
     public static final Command m_tankDrive = new DriveTrain_TankDrive(m_driveTrain);
     public static final Command m_arcadeDrive = new DriveTrain_ArcadeDrive(m_driveTrain);
 
-    //buttons for the flightstick
+    //buttons for the flightstick (MARC)
     public static final Joystick stick = new Joystick(0);
     public static final JoystickButton intakeButton  = new JoystickButton(stick, 1);
     public static final JoystickButton intakeReverse = new JoystickButton(stick, 2);
-    public static final JoystickButton shooterButton = new JoystickButton(stick, 12); 
+    public static final JoystickButton fieldOrient = new JoystickButton(stick, 5);
+    //public static final JoystickButton shooterButton = new JoystickButton(stick, 12); 
 
-    //buttons for controller 
+    //buttons for controller (ALEX/SLADE)
     public static final Joystick controller = new Joystick(1);
+    public static final JoystickButton shooterButton = new JoystickButton(controller, 1);
 
     public RobotContainer() {
+        //initializes code
         configureButtonBindings();
+        //initialize objects here
         m_gyro.init();
         m_shooter.init();
         m_intake.init();
-        //place any object initializaition code here
     }
 
     /**
@@ -57,11 +61,18 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         //shooterButton.whenPressed(new InstantCommand(m_shooter :: shooteron, m_shooter));
+        //flightstick button bindings
         intakeButton.whenPressed(new Intake_Instant());
         intakeButton.whenReleased(new Intake_Instant());
+
         intakeReverse.whenPressed(new Intake_Reverse());
         intakeReverse.whenReleased(new Intake_Reverse());
+
+        fieldOrient.whenPressed(new Field_Instant());
+
+        //controller button bindings
         shooterButton.whenPressed(new Shooter_Instant());
+
     }
 
 
