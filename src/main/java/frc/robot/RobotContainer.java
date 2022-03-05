@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
@@ -15,6 +16,10 @@ import frc.robot.commands.Field_Instant;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Winch;
+import frc.robot.commands.Winch_Instant;
+import frc.robot.commands.Winch_InstantReverse;
+import frc.robot.commands.AutoGrabBall;
 //import frc.robot.gyro;
 
 /**
@@ -28,6 +33,7 @@ public class RobotContainer {
     public static final Shooter m_shooter = new Shooter();
     public static final Intake m_intake = new Intake();
     public static final gyro m_gyro = new gyro();
+    public static final Winch m_winch = new Winch();
 
     public static final Command m_tankDrive = new DriveTrain_TankDrive(m_driveTrain);
     public static final Command m_arcadeDrive = new DriveTrain_ArcadeDrive(m_driveTrain);
@@ -42,6 +48,9 @@ public class RobotContainer {
     //buttons for controller (ALEX/SLADE)
     public static final Joystick controller = new Joystick(1);
     public static final JoystickButton shooterButton = new JoystickButton(controller, 1);
+    public static final POVButton winchButtonUp = new POVButton(controller, 0);
+    public static final POVButton winchButtonDown = new POVButton(controller, 180);
+
 
     public RobotContainer() {
         //initializes code
@@ -50,6 +59,8 @@ public class RobotContainer {
         m_gyro.init();
         m_shooter.init();
         m_intake.init();
+        m_winch.init();
+        
     }
 
     /**
@@ -73,6 +84,12 @@ public class RobotContainer {
         //controller button bindings
         shooterButton.whenPressed(new Shooter_Instant());
 
+        winchButtonUp.whenPressed(new Winch_Instant());
+        winchButtonUp.whenReleased(new Winch_Instant());
+
+        winchButtonDown.whenPressed(new Winch_InstantReverse());
+        winchButtonDown.whenReleased(new Winch_InstantReverse());
+
     }
 
 
@@ -83,6 +100,8 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
+        new AutoGrabBall();
+
     return null;
     }
 }

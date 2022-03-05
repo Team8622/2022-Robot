@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.gyro;
@@ -37,6 +38,8 @@ public class Robot extends TimedRobot {
   public RobotContainer m_robotContainer;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -66,6 +69,10 @@ public class Robot extends TimedRobot {
   m_visionThread.setDaemon(true);
   m_visionThread.start();
   //end camera code
+        
+
+  
+  
 
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);
@@ -121,6 +128,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     RobotContainer.m_driveTrain.setDefaultCommand(new DriveTrain_ArcadeDrive(RobotContainer.m_driveTrain));
+    
   }
 
   /** This function is called periodically during operator control. */

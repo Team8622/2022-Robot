@@ -61,6 +61,7 @@ public class DriveTrain extends SubsystemBase{
       m_rightfollow.follow(m_rightlead);
 
       //I know this looks backwards but trust me.
+      //no - nat
       m_drive.arcadeDrive(xSpeed * rotationspeed, zRotation * drivespeed);
   }
 }

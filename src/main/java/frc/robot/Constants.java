@@ -38,5 +38,7 @@ public class Constants {
         //motor speed measured in RPMS (I hope)
         public static final int shootermotorspeed = 10800;
         public static final int intakemotorspeed = 7000;
+        public static final int winchmotorspeed = 5000;
     }
+    
 }
