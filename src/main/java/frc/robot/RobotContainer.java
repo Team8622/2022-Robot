@@ -2,10 +2,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Trigger;
+//import edu.wpi.first.wpilibj.buttons.Trigger;
 //import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
+//import edu.wpi.first.wpilibj2.command.button.POVButton;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
@@ -49,8 +49,8 @@ public class RobotContainer {
     //buttons for controller (ALEX/SLADE)
     public static final Joystick controller = new Joystick(1);
     public static final JoystickButton shooterButton = new JoystickButton(controller, 6);
-    public static final POVButton shooterUp =  new POVButton(controller, 0);
-    public static final POVButton shooterDown = new POVButton(controller, 180);
+    //public static final POVButton shooterUp =  new POVButton(controller, 0);
+    //public static final POVButton shooterDown = new POVButton(controller, 180);
     public static final JoystickButton winchButtonUp = new JoystickButton(controller, 1);
     public static final JoystickButton winchButtonDown = new JoystickButton(controller, 2);
 
@@ -91,10 +91,10 @@ public class RobotContainer {
         //shooterDown.whenPressed();
 
         winchButtonUp.whenPressed(new Winch_Instant());
-        winchButtonUp.whenReleased(new Winch_Instant());
+        //winchButtonUp.whenReleased(new Winch_Instant());
 
         winchButtonDown.whenPressed(new Winch_InstantReverse());
-        winchButtonDown.whenReleased(new Winch_InstantReverse());
+        //winchButtonDown.whenReleased(new Winch_InstantReverse());
 
     }
 

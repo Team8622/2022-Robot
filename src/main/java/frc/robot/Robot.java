@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
   Thread m_visionThread;
 
   public RobotContainer m_robotContainer;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  //private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 
   
@@ -105,9 +105,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
+    m_robotContainer.getAutonomousCommand();
+    //m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    System.out.println("Running Auto....?");// + m_autoSelected);
   }
 
   /** This function is called periodically during autonomous. */

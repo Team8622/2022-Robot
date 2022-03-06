@@ -17,7 +17,7 @@ public class AutoGrabBall extends InstantCommand{
 
       @Override
       public void initialize() {
-          RobotContainer.m_driveTrain.ArcadeDrive(.75,0);
+          RobotContainer.m_driveTrain.ArcadeDrive(0.75,0);
           Timer.delay(2.0);
           RobotContainer.m_driveTrain.ArcadeDrive(0, 0);
 
