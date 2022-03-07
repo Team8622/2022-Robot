@@ -22,9 +22,9 @@ public class Auto_DriveFwd extends CommandBase{
         double time = Timer.getFPGATimestamp();
 
         if(time - Robot.autoTime < 2){
-            RobotContainer.m_driveTrain.ArcadeDrive(0, -0.75);
+            RobotContainer.m_driveTrain.setMotors(0.5, -0.5);
         }else{
-            RobotContainer.m_driveTrain.ArcadeDrive(0, 0);
+            RobotContainer.m_driveTrain.setMotors(0, 0);
         }
     }
 }

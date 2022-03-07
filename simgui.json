@@ -3,11 +3,15 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveTrain": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[0]": "Gyro",
       "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
-      "/LiveWindow/gyro": "Subsystem"
+      "/LiveWindow/Winch": "Subsystem",
+      "/LiveWindow/gyro": "Subsystem",
+      "/SmartDashboard/Auto choices": "String Chooser"
     }
   }
 }

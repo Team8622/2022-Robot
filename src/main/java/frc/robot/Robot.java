@@ -6,12 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.gyro;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
+import frc.robot.commands.Auto_DriveFwd;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -36,8 +38,9 @@ public class Robot extends TimedRobot {
   Thread m_visionThread;
 
   public RobotContainer m_robotContainer;
-  //private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  public static double autoTime;
 
   
   /**
@@ -74,9 +77,9 @@ public class Robot extends TimedRobot {
   
   
 
-    // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    // m_chooser.addOption("My Auto", kCustomAuto);
-    // SmartDashboard.putData("Auto choices", m_chooser);
+    m_chooser.setDefaultOption("Basic Auto", kDefaultAuto);
+    //m_chooser.addOption("Test Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
     m_robotContainer = new RobotContainer();
 }
 
@@ -105,10 +108,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutonomousCommand();
-    //m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+    //m_robotContainer.getAutonomousCommand();
+    m_autoSelected = m_chooser.getSelected();
+    m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Running Auto....?");// + m_autoSelected);
+
+    autoTime = Timer.getFPGATimestamp();
   }
 
   /** This function is called periodically during autonomous. */
@@ -116,11 +121,11 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
-        // Put custom auto code here
+        // Put custom auto 
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
+        new Auto_DriveFwd(RobotContainer.m_driveTrain);
         break;
     }
   }

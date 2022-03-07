@@ -64,4 +64,12 @@ public class DriveTrain extends SubsystemBase{
       //no - nat
       m_drive.arcadeDrive(xSpeed * rotationspeed, zRotation * drivespeed);
   }
+
+  public void setMotors(double left, double right){
+      m_leftfollow.follow(m_leftlead);
+      m_rightfollow.follow(m_rightlead);
+    
+      m_leftlead.set(left);
+      m_rightlead.set(right);
+  }
 }
