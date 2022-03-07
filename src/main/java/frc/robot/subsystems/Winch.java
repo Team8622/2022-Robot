@@ -55,13 +55,15 @@ public void init(){
    
     m_L_armLead.set(winchspeed);
    //m_pidController.setReference(-winchspeed, ControlType.kVelocity);
-   m_R_armFollow.set(winchspeed);
+   //m_R_armFollow.follow(m_L_armLead);
+
    SmartDashboard.putBoolean("Winch On", true);
    iswinchon = true;
  }
  public void reverseon(){
   m_L_armLead.set(-winchspeed * 0.25);
-  m_R_armFollow.set(-winchspeed * 0.25);
+  //m_R_armFollow.follow(m_L_armLead);
+
   SmartDashboard.putBoolean("Winch On", true);
   iswinchon = true;
 }
