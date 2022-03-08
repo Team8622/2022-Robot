@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   
 
     m_chooser.setDefaultOption("Basic Auto", kDefaultAuto);
-    //m_chooser.addOption("Test Auto", kCustomAuto);
+    m_chooser.addOption("Direct Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     m_robotContainer = new RobotContainer();
 }
@@ -119,15 +119,36 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
+    //hey look, this works too!    
+    double time = Timer.getFPGATimestamp();
+
+        if(time - Robot.autoTime < 2){
+            RobotContainer.m_driveTrain.ArcadeDrive(0, 0.5);
+            SmartDashboard.putBoolean("Auto On", true);
+        }else{
+                RobotContainer.m_driveTrain.ArcadeDrive(0, 0); 
+        }
+
+    //I know that this works
+    //RobotContainer.m_driveTrain.ArcadeDrive(0, 0.5);
+    //SmartDashboard.putBoolean("Auto On", true);
+
+    /*switch (m_autoSelected) {
       case kCustomAuto:
-        // Put custom auto 
+          double time = Timer.getFPGATimestamp();
+
+          if(time - Robot.autoTime < 2){
+              RobotContainer.m_driveTrain.setMotors(0.5, -0.5);
+              SmartDashboard.putBoolean("Auto On", true);
+          }else{
+                  RobotContainer.m_driveTrain.setMotors(0, 0); 
+          } 
         break;
       case kDefaultAuto:
       default:
         new Auto_DriveFwd(RobotContainer.m_driveTrain);
         break;
-    }
+    }*/
   }
 
   /** This function is called once when teleop is enabled. */
