@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+//import frc.robot.Constants;
 import frc.robot.Constants.CANBusID;
 
 public class Winch extends SubsystemBase{
@@ -26,7 +26,7 @@ public class Winch extends SubsystemBase{
     m_follow = new CANSparkMax(CANBusID.armFollow, MotorType.kBrushless);
 
     m_follow.follow(m_lead);
-    winchspeed = Constants.SpeedConstants.winchmotorspeed;
+    //winchspeed = Constants.SpeedConstants.winchmotorspeed;
   }
 
   @Override
@@ -34,14 +34,14 @@ public class Winch extends SubsystemBase{
     SmartDashboard.putNumber("Winch Output", m_lead.getAppliedOutput());
   }
 
-  public void winchon(){
-    m_lead.set(0.75);
+  public void release(){
+    m_lead.set(0.1);
     SmartDashboard.putBoolean("Winch On", true);
     iswinchon = true;
   }
 
-  public void winchreverse(){
-    m_lead.set(-0.25);
+  public void winch(){
+    m_lead.set(-0.5);
     SmartDashboard.putBoolean("Winch On", true);
     iswinchon = true;
   }

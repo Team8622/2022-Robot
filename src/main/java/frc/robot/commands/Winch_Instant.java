@@ -10,7 +10,7 @@ public class Winch_Instant extends InstantCommand {
     @Override
     public void initialize() {
         if(!RobotContainer.m_winch.iswinchon){
-          RobotContainer.m_winch.winchon();
+          RobotContainer.m_winch.winch();
         } else{
           RobotContainer.m_winch.winchoff();
         }

@@ -19,7 +19,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Winch;
 import frc.robot.commands.Winch_Instant;
-import frc.robot.commands.Winch_InstantReverse;
+import frc.robot.commands.Winch_InstantRelease;
 import frc.robot.commands.AutoGrabBall;
 //import frc.robot.gyro;
 
@@ -93,7 +93,7 @@ public class RobotContainer {
         winchButtonUp.whenPressed(new Winch_Instant());
         //winchButtonUp.whenReleased(new Winch_Instant());
 
-        winchButtonDown.whenPressed(new Winch_InstantReverse());
+        winchButtonDown.whenPressed(new Winch_InstantRelease());
         //winchButtonDown.whenReleased(new Winch_InstantReverse());
 
     }

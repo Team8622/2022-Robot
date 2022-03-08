@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Robot;
@@ -23,8 +24,9 @@ public class Auto_DriveFwd extends CommandBase{
 
         if(time - Robot.autoTime < 2){
             RobotContainer.m_driveTrain.setMotors(0.5, -0.5);
+            SmartDashboard.putBoolean("Auto On", true);
         }else{
-            RobotContainer.m_driveTrain.setMotors(0, 0);
+                RobotContainer.m_driveTrain.setMotors(0, 0); 
         }
     }
 }
