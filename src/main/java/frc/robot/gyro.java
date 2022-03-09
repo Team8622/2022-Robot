@@ -1,8 +1,9 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation;
 
 //call the gyro and enable the measuring
@@ -10,7 +11,7 @@ public class gyro extends SubsystemBase {
     public static AHRS ahrs;
     public void init() {
         try {
-            ahrs = new AHRS(I2C.Port.kOnboard);
+            ahrs = new AHRS(SPI.Port.kMXP);
             ahrs.enableLogging(true);
         } 
         catch (RuntimeException ex ) {
@@ -38,6 +39,7 @@ public class gyro extends SubsystemBase {
         ahrs.reset();
     }
     public void periodic() {
-      SmartDashboard.putNumber("Gyro Angle", getHeading()); 
+      SmartDashboard.putNumber("Gyro", getHeading());
+      
     }
 }
