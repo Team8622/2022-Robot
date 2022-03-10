@@ -35,13 +35,13 @@ public class Winch extends SubsystemBase{
   }
 
   public void release(){
-    m_lead.set(0.1);
+    m_lead.set(-0.25);
     SmartDashboard.putBoolean("Winch On", true);
     iswinchon = true;
   }
 
   public void winch(){
-    m_lead.set(-0.5);
+    m_lead.set(0.1);
     SmartDashboard.putBoolean("Winch On", true);
     iswinchon = true;
   }

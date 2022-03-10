@@ -51,8 +51,8 @@ public class RobotContainer {
     public static final JoystickButton shooterButton = new JoystickButton(controller, 6);
     //public static final POVButton shooterUp =  new POVButton(controller, 0);
     //public static final POVButton shooterDown = new POVButton(controller, 180);
-    public static final JoystickButton winchButtonUp = new JoystickButton(controller, 1);
-    public static final JoystickButton winchButtonDown = new JoystickButton(controller, 2);
+    public static final JoystickButton winchButton = new JoystickButton(controller, 1);
+    public static final JoystickButton winchRelease = new JoystickButton(controller, 2);
 
 
     public RobotContainer() {
@@ -90,11 +90,11 @@ public class RobotContainer {
         //shooterUp.whenPressed();
         //shooterDown.whenPressed();
 
-        winchButtonUp.whenPressed(new Winch_Instant());
-        //winchButtonUp.whenReleased(new Winch_Instant());
+        winchButton.whenPressed(new Winch_Instant());
+        winchButton.whenReleased(new Winch_Instant());
 
-        winchButtonDown.whenPressed(new Winch_InstantRelease());
-        //winchButtonDown.whenReleased(new Winch_InstantReverse());
+        winchRelease.whenPressed(new Winch_InstantRelease());
+        winchRelease.whenReleased(new Winch_InstantRelease());
 
     }
 
