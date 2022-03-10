@@ -9,6 +9,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 public class Constants {
     public static final class CANBusID{
         public static final int driveLeft1 = 1;
@@ -26,6 +28,9 @@ public class Constants {
 
         public static final int intakeMotor = 9;
 
+    }
+    public static final class ranValue{
+        public static final double wheelCir = Units.inchesToMeters(37.7);
     }
 
     public static final class ControllerConstants{

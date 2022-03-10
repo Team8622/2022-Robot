@@ -15,10 +15,23 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.gyro;
+
+import edu.wpi.first.wpilibj.Timer;
+
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.CANBusID;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+
 
 public class DriveTrain extends SubsystemBase{
   
@@ -37,16 +50,28 @@ public class DriveTrain extends SubsystemBase{
   double rotationspeed = 0.5;
   public boolean fieldoriented = false;
 
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
+  public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+
+  Timer timer;
+ 
+
   public void init(){
 
     SmartDashboard.putNumber("Drive Speed", drivespeed);
     SmartDashboard.putNumber("Rotation Speed", rotationspeed);
+    timer = new Timer();
+    timer.reset();
+    timer.start();
   }
-
   @Override
   public void periodic(){
     drivespeed = SmartDashboard.getNumber("Drive Speed", 0.75);
     rotationspeed = SmartDashboard.getNumber("Rotation Speed", 0.5);
+    odometry.update(getHeading(), m_rightlead.getEncoder().getVelocity()/timer.get(),  m_leftlead.getEncoder().getVelocity()/timer.get());
+    timer.reset();
+    SmartDashboard.putNumber("x", odometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("y", odometry.getPoseMeters().getY());
   }
 
   public void TankDrive(double left, double right){
@@ -72,4 +97,15 @@ public class DriveTrain extends SubsystemBase{
       m_leftlead.set(left);
       m_rightlead.set(right);
   }
+  public DifferentialDriveWheelSpeeds getSpeeds(){
+    return new DifferentialDriveWheelSpeeds(
+      m_leftlead.getEncoder().getVelocity() / 1 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
+      m_rightlead.getEncoder().getVelocity() / 1 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60
+      //change 1 to gear ratio
+      );
+  }
+  public Rotation2d getHeading() {
+  return Rotation2d.fromDegrees(-RobotContainer.m_gyro.getHeading());
+}
+
 }
