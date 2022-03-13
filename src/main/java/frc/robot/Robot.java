@@ -122,12 +122,23 @@ public class Robot extends TimedRobot {
     //hey look, this works too!    
     double time = Timer.getFPGATimestamp();
 
-        if(time - Robot.autoTime < 2){
-            RobotContainer.m_driveTrain.ArcadeDrive(0, 0.5);
+        //drive robot backwards, turn off the shooter and intake (run for 2 seconds the first time, one second after we shoot)
+        if(time - Robot.autoTime < 1 || (time - Robot.autoTime >=3 && time -Robot.autoTime < 4) ){
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteroff();
+
+            RobotContainer.m_driveTrain.ArcadeDrive(0, -0.5);
             SmartDashboard.putBoolean("Auto On", true);
-        }else{
-                RobotContainer.m_driveTrain.ArcadeDrive(0, 0); 
+        //after driving for 2 seconds, shoot the preload (running for 1 sec)
+        }else if (time - Robot.autoTime >= 1 && time - Robot.autoTime < 3){
+            RobotContainer.m_shooter.shooteron();
+            Timer.delay(1);
+            RobotContainer.m_intake.intakeon();
         }
+        else{
+            RobotContainer.m_driveTrain.ArcadeDrive(0, 0); 
+        }
+
 
     //I know that this works
     //RobotContainer.m_driveTrain.ArcadeDrive(0, 0.5);
