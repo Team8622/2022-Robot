@@ -51,7 +51,7 @@ public class DriveTrain extends SubsystemBase{
   public boolean fieldoriented = false;
 
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
-  public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  //public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
 
   Timer timer;
  
@@ -68,10 +68,10 @@ public class DriveTrain extends SubsystemBase{
   public void periodic(){
     drivespeed = SmartDashboard.getNumber("Drive Speed", 0.75);
     rotationspeed = SmartDashboard.getNumber("Rotation Speed", 0.5);
-    odometry.update(getHeading(), m_rightlead.getEncoder().getVelocity()/timer.get(),  m_leftlead.getEncoder().getVelocity()/timer.get());
-    timer.reset();
-    SmartDashboard.putNumber("x", odometry.getPoseMeters().getX());
-    SmartDashboard.putNumber("y", odometry.getPoseMeters().getY());
+    //odometry.update(this.getHeading(), m_rightlead.getEncoder().getVelocity()*timer.get(),  m_leftlead.getEncoder().getVelocity()*timer.get());
+    //timer.reset();
+    //SmartDashboard.putNumber("x", odometry.getPoseMeters().getX());
+    //SmartDashboard.putNumber("y", odometry.getPoseMeters().getY());
   }
 
   public void TankDrive(double left, double right){
@@ -104,8 +104,9 @@ public class DriveTrain extends SubsystemBase{
       //change 1 to gear ratio
       );
   }
-  public Rotation2d getHeading() {
-  return Rotation2d.fromDegrees(-RobotContainer.m_gyro.getHeading());
-}
+   //public Rotation2d getHeading() {
+    // System.out.println(-RobotContainer.m_gyro.getHeading());
+   //return Rotation2d.fromDegrees(-RobotContainer.m_gyro.getHeading());
+ //}
 
 }

@@ -41,7 +41,7 @@ public class Winch extends SubsystemBase{
   }
 
   public void winch(){
-    m_lead.set(0.1);
+    m_lead.set(0.2);
     SmartDashboard.putBoolean("Winch On", true);
     iswinchon = true;
   }
