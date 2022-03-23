@@ -12,12 +12,14 @@
 /** */
 package frc.robot.subsystems;
 
+import com.fasterxml.jackson.databind.util.RootNameLookup;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.gyro;
 
-import edu.wpi.first.wpilibj.Timer;
+
+import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -45,33 +47,36 @@ public class DriveTrain extends SubsystemBase{
 
   DifferentialDrive m_drive = new DifferentialDrive(m_leftlead, m_rightlead);
 
+Rotation2d poopsTemp = new Rotation2d();
+
   //setting initial restrictions on the drive and rotation speeds
   double drivespeed = 0.75;
   double rotationspeed = 0.5;
   public boolean fieldoriented = false;
 
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
-  public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  private Encoder m_rightEncoder;
+  private Encoder m_leftEncoder;
 
-  Timer timer;
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
+  public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeadin(RobotContainer.m_gyro));
+
  
 
   public void init(){
 
     SmartDashboard.putNumber("Drive Speed", drivespeed);
     SmartDashboard.putNumber("Rotation Speed", rotationspeed);
-    timer = new Timer();
-    timer.reset();
-    timer.start();
+
   }
   @Override
   public void periodic(){
     drivespeed = SmartDashboard.getNumber("Drive Speed", 0.75);
     rotationspeed = SmartDashboard.getNumber("Rotation Speed", 0.5);
-    odometry.update(getHeading(), m_rightlead.getEncoder().getVelocity()/timer.get(),  m_leftlead.getEncoder().getVelocity()/timer.get());
-    timer.reset();
+    odometry.update(getHeadin(RobotContainer.m_gyro), m_rightEncoder.getDistance(), m_leftEncoder.getDistance());
+    // timer.reset();
     SmartDashboard.putNumber("x", odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("y", odometry.getPoseMeters().getY());
+
   }
 
   public void TankDrive(double left, double right){
@@ -104,8 +109,14 @@ public class DriveTrain extends SubsystemBase{
       //change 1 to gear ratio
       );
   }
-  public Rotation2d getHeading() {
-  return Rotation2d.fromDegrees(-RobotContainer.m_gyro.getHeading());
+  public Rotation2d getHeadin(gyro yro) {
+    
+  //return Rotation2d.fromDegrees(RobotContainer.m_gyro.getHeading());
+  //try {
+    Rotation2d temp = new Rotation2d(Units.degreesToRadians(yro.getHeading()));
+    return temp;
+  //} catch(Exception e) {
+  //  return new Rotation2d();
+  //}
 }
-
 }
