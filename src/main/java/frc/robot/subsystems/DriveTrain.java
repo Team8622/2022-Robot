@@ -60,6 +60,8 @@ Rotation2d poopsTemp = new Rotation2d();
   DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
   public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeadin(RobotContainer.m_gyro));
 
+
+
  
 
   public void init(){
@@ -109,6 +111,7 @@ Rotation2d poopsTemp = new Rotation2d();
       //change 1 to gear ratio
       );
   }
+
   public Rotation2d getHeadin(gyro yro) {
     
   //return Rotation2d.fromDegrees(RobotContainer.m_gyro.getHeading());
@@ -119,4 +122,5 @@ Rotation2d poopsTemp = new Rotation2d();
   //  return new Rotation2d();
   //}
 }
+
 }
