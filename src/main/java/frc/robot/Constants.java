@@ -28,6 +28,8 @@ public class Constants {
 
         public static final int intakeMotor = 9;
 
+        
+
     }
     public static final class ranValue{
         public static final double wheelCir = Units.inchesToMeters(37.7);
@@ -41,9 +43,11 @@ public class Constants {
 
     public static final class SpeedConstants{
         //motor speed measured in RPMS
-        public static final int shootermotorspeed = 10800;
+        public static final int shootermotorspeed = 9500;
         public static final int intakemotorspeed = 7000;
         public static final int winchmotorspeed = 4000;
+
+        public static final double wheelConversion = 2 * Units.inchesToMeters(3) * Math.PI;
     }
     
 }

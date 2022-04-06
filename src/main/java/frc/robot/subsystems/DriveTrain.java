@@ -12,26 +12,33 @@
 /** */
 package frc.robot.subsystems;
 
-import com.fasterxml.jackson.databind.util.RootNameLookup;
+
+//import java.util.PrimitiveIterator.OfDouble;
+import frc.robot.Constants;
+//import com.fasterxml.jackson.databind.util.RootNameLookup;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.gyro;
 
 
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+//import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
+//import frc.robot.Constants;
+//import frc.robot.RobotContainer;
 import frc.robot.Constants.CANBusID;
-
+//import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 
@@ -50,51 +57,96 @@ public class DriveTrain extends SubsystemBase{
 Rotation2d poopsTemp = new Rotation2d();
 
   //setting initial restrictions on the drive and rotation speeds
-  double drivespeed = 0.75;
-  double rotationspeed = 0.5;
+  public double drivespeed = 0.9;
+  public double rotationspeed = 0.6;
   public boolean fieldoriented = false;
 
-  private Encoder m_rightEncoder;
-  private Encoder m_leftEncoder;
+  public RelativeEncoder m_rightEncoder = m_rightlead.getEncoder();
+  public RelativeEncoder m_leftEncoder = m_leftlead.getEncoder();
 
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
-  public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeadin(RobotContainer.m_gyro));
+  
 
+  public static final gyro d_gyro = new gyro();
 
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(24));
+  public DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeadin(d_gyro), new Pose2d(8.0,4.0,new Rotation2d()));
+  
+  private double encoderDistanceL = 0.0;
+  private double encoderDistanceR = 0.0;
+  private double encoderDistanceLOld = 0.0;
+  private double encoderDistanceROld = 0.0;
 
- 
+  private double encoderDistanceRO;
+  private double encoderDistanceLO;
 
+  public Field2d fieldObject = new Field2d();
+
+  
+  
   public void init(){
+    encoderDistanceLO = 0.0;
+    encoderDistanceRO = 0.0;
+    
+    //odometry.update(getHeadin(d_gyro), 0, 0);
+
+    m_leftEncoder.setPositionConversionFactor(Constants.SpeedConstants.wheelConversion);
+    m_rightEncoder.setPositionConversionFactor(Constants.SpeedConstants.wheelConversion);
 
     SmartDashboard.putNumber("Drive Speed", drivespeed);
     SmartDashboard.putNumber("Rotation Speed", rotationspeed);
 
+    //odometry.resetPosition(new Pose2d(), getHeadin(d_gyro));
+    //fieldObject.getObject("RRField");
+    //Shuffleboard.getTab("Tab 3").add("fieldExtraWidget", fieldObject).withWidget(BuiltInWidgets.kField);
+    //SmartDashboard.putData("please I need help", fieldObject);
   }
   @Override
   public void periodic(){
-    drivespeed = SmartDashboard.getNumber("Drive Speed", 0.75);
-    rotationspeed = SmartDashboard.getNumber("Rotation Speed", 0.5);
-    odometry.update(getHeadin(RobotContainer.m_gyro), m_rightEncoder.getDistance(), m_leftEncoder.getDistance());
-    // timer.reset();
+    
+    encoderDistanceL = m_leftEncoder.getPosition();
+    encoderDistanceL = m_leftEncoder.getPosition();
+    SmartDashboard.putData("Field", fieldObject);
+    encoderDistanceLO = encoderDistanceLOld - encoderDistanceL;
+    encoderDistanceRO = encoderDistanceROld - encoderDistanceR;
+
+    drivespeed = SmartDashboard.getNumber("Drive Speed", 0.9);
+    rotationspeed = SmartDashboard.getNumber("Rotation Speed", 0.6);
+
+    odometry.update(getHeadin(d_gyro), encoderDistanceLO,encoderDistanceRO);
+
+    fieldObject.setRobotPose(odometry.getPoseMeters());
+
+
     SmartDashboard.putNumber("x", odometry.getPoseMeters().getX());
     SmartDashboard.putNumber("y", odometry.getPoseMeters().getY());
 
+    
+    encoderDistanceLOld = m_leftEncoder.getPosition();
+    encoderDistanceROld = m_rightEncoder.getPosition();
+    //SmartDashboard.putData("ree", fieldObject);
   }
 
   public void TankDrive(double left, double right){
+
       m_leftfollow.follow(m_leftlead);
       m_rightfollow.follow(m_rightlead);
-
+      
+      
       m_drive.tankDrive(left * drivespeed, right * drivespeed);
+
   }
 
   public void ArcadeDrive(double xSpeed, double zRotation){
+
       m_leftfollow.follow(m_leftlead);
       m_rightfollow.follow(m_rightlead);
 
       //I know this looks backwards but trust me.
+
       //no - nat
+      //it literally is backwards
       m_drive.arcadeDrive(xSpeed * rotationspeed, zRotation * drivespeed);
+
   }
 
   public void setMotors(double left, double right){
@@ -105,18 +157,26 @@ Rotation2d poopsTemp = new Rotation2d();
       m_rightlead.set(right);
   }
   public DifferentialDriveWheelSpeeds getSpeeds(){
+
     return new DifferentialDriveWheelSpeeds(
+
       m_leftlead.getEncoder().getVelocity() / 1 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
       m_rightlead.getEncoder().getVelocity() / 1 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60
       //change 1 to gear ratio
+
       );
+
   }
 
   public Rotation2d getHeadin(gyro yro) {
     
   //return Rotation2d.fromDegrees(RobotContainer.m_gyro.getHeading());
   //try {
-    Rotation2d temp = new Rotation2d(Units.degreesToRadians(yro.getHeading()));
+    Rotation2d temp = new Rotation2d(
+      Units.degreesToRadians(
+        yro.getHeading()
+      )
+      );
     return temp;
   //} catch(Exception e) {
   //  return new Rotation2d();

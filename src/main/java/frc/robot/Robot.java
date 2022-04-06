@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -13,7 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.gyro;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
-import frc.robot.commands.Auto_DriveFwd;
+//import frc.robot.subsystems.DriveTrain;
+//import frc.robot.commands.Auto_DriveFwd;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -32,8 +34,8 @@ import org.opencv.imgproc.Imgproc;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  private static final String kOneBall = "One Ball Auto";
+  private static final String kTwoBall = "Two Ball Auto";
   private String m_autoSelected;
   Thread m_visionThread;
 
@@ -77,8 +79,8 @@ public class Robot extends TimedRobot {
   
   
 
-    m_chooser.setDefaultOption("Basic Auto", kDefaultAuto);
-    m_chooser.addOption("Direct Auto", kCustomAuto);
+    m_chooser.setDefaultOption("One Ball Auto", kOneBall);
+    m_chooser.addOption("Two Ball Auto", kTwoBall);
     SmartDashboard.putData("Auto choices", m_chooser);
     m_robotContainer = new RobotContainer();
 }
@@ -110,56 +112,80 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     //m_robotContainer.getAutonomousCommand();
     m_autoSelected = m_chooser.getSelected();
-    m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+    //m_autoSelected = SmartDashboard.getString("Auto Selector", kOneBall);
     System.out.println("Running Auto....?");// + m_autoSelected);
 
+    RobotContainer.m_driveTrain.drivespeed = 0.75;
+    RobotContainer.m_driveTrain.rotationspeed = 0.5;
     autoTime = Timer.getFPGATimestamp();
+    // RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.75);
+    // Timer.delay(2.0);
+    // RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    //hey look, this works too!    
+    //hey look, this works too!   
+    RobotContainer.m_driveTrain.drivespeed = 0.75;
+    RobotContainer.m_driveTrain.rotationspeed = 0.5;
+
     double time = Timer.getFPGATimestamp();
-
-        //drive robot backwards, turn off the shooter and intake (run for 2 seconds the first time, one second after we shoot)
-        if(time - Robot.autoTime < 1 || (time - Robot.autoTime >=3 && time -Robot.autoTime < 4) ){
-            RobotContainer.m_intake.intakeoff();
-            RobotContainer.m_shooter.shooteroff();
-
-            RobotContainer.m_driveTrain.ArcadeDrive(0, -0.5);
+    System.out.println("Time: " + time);
+        //drive robot backwards, turn off the shooter and intake (run for 1 seconds the first time, one second after we shoot)
+        if(time - Robot.autoTime < 1.0){
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.62);
             SmartDashboard.putBoolean("Auto On", true);
         //after driving for 2 seconds, shoot the preload (running for 1 sec)
-        }else if (time - Robot.autoTime >= 1 && time - Robot.autoTime < 3){
+        }else if (time - Robot.autoTime >= 1.0 && time - Robot.autoTime < 3.0){
             RobotContainer.m_shooter.shooteron();
-            Timer.delay(1);
+            Timer.delay(1.0);
             RobotContainer.m_intake.intakeon();
-        }
-        else{
-            RobotContainer.m_driveTrain.ArcadeDrive(0, 0); 
-        }
-
-
+        }else if(time - Robot.autoTime >= 3.0 && time - Robot.autoTime < 4.0){
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteroff();
+            RobotContainer.m_driveTrain.ArcadeDrive(0.94, 0.0);
+        }else if(time - Robot.autoTime >= 4.5 && time - Robot.autoTime < 7.25){
+          RobotContainer.m_intake.intakeon();
+          RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.4);
+      }else if(time - Robot.autoTime >= 7.25 && time - Robot.autoTime < 8.75){
+        RobotContainer.m_intake.intakeoff();
+        RobotContainer.m_driveTrain.ArcadeDrive(-.85,0);
+      }  else if(time - Robot.autoTime >= 8.75 && time - Robot.autoTime < 10.5){
+        RobotContainer.m_driveTrain.ArcadeDrive(0,0.45);
+      } else if(time - Robot.autoTime >= 10.5 && time - 
+      Robot.autoTime < 10.65){
+        RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0);
+        RobotContainer.m_intake.reverseon();
+      }else if(time - Robot.autoTime >= 10.65 && time - Robot.autoTime < 10.7){
+        RobotContainer.m_intake.intakeoff();
+        RobotContainer.m_shooter.shooteron();
+      }else if(time - Robot.autoTime>=10.7 && time - Robot.autoTime < 12){
+        RobotContainer.m_intake.intakeon();
+      }else if(time - Robot.autoTime >= 12 && time - Robot.autoTime < 14){
+        RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.45);
+      } else{
+          RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0); 
+          RobotContainer.m_intake.intakeoff();
+          RobotContainer.m_shooter.shooteroff();
+      }
+        
+    
     //I know that this works
     //RobotContainer.m_driveTrain.ArcadeDrive(0, 0.5);
     //SmartDashboard.putBoolean("Auto On", true);
 
-    /*switch (m_autoSelected) {
-      case kCustomAuto:
-          double time = Timer.getFPGATimestamp();
-
-          if(time - Robot.autoTime < 2){
-              RobotContainer.m_driveTrain.setMotors(0.5, -0.5);
-              SmartDashboard.putBoolean("Auto On", true);
-          }else{
-                  RobotContainer.m_driveTrain.setMotors(0, 0); 
-          } 
+    switch (m_autoSelected) {
+      case kOneBall:
+        System.out.println("You've selected One Ball Auto");
+          
         break;
-      case kDefaultAuto:
+      case kTwoBall:
       default:
-        new Auto_DriveFwd(RobotContainer.m_driveTrain);
+        System.out.println("Hey, it works. We selected the other option, loser");
+        //new Auto_DriveFwd(RobotContainer.m_driveTrain);
         break;
-    }*/
+    }
   }
 
   /** This function is called once when teleop is enabled. */
@@ -167,12 +193,15 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     RobotContainer.m_driveTrain.setDefaultCommand(new DriveTrain_ArcadeDrive(RobotContainer.m_driveTrain));
     
+    RobotContainer.m_driveTrain.drivespeed = 0.9;
+    RobotContainer.m_driveTrain.rotationspeed = 0.6;
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     RobotContainer.m_gyro.periodic();
+    
   }
 
   /** This function is called once when the robot is disabled. */

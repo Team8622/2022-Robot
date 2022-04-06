@@ -2,7 +2,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.time.chrono.ThaiBuddhistChronology;
+//import java.time.chrono.ThaiBuddhistChronology;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -24,7 +24,7 @@ public class gyro extends SubsystemBase {
     public double getHeading() {
         try {
          return Math.IEEEremainder(ahrs.getAngle(), 360);
-        } catch (RuntimeException ex) 
+         }catch (RuntimeException ex) 
         {
             DriverStation.reportError("Error Getting heading:  " + ex.getMessage(), true);
             return 0;
