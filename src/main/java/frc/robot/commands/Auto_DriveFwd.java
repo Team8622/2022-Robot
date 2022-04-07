@@ -22,7 +22,7 @@ public class Auto_DriveFwd extends CommandBase{
     public void execute(){
         double time = Timer.getFPGATimestamp();
 
-        if(timeDiff < 2){
+        if(time - Robot.autoTime < 2){
             RobotContainer.m_driveTrain.setMotors(0.5, -0.5);
             SmartDashboard.putBoolean("Auto On", true);
         }else{
