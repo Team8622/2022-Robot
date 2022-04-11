@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //import frc.robot.gyro;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
+import frc.robot.commands.TurnToAngle;
+import frc.robot.Constants.SpeedConstants;
 //import frc.robot.subsystems.DriveTrain;
 //import frc.robot.commands.Auto_DriveFwd;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -35,12 +37,17 @@ import org.opencv.imgproc.Imgproc;
  */
 public class Robot extends TimedRobot {
   private static final String kOneBall = "One Ball Auto";
+  private static final String kOneMiddle = "MIDDLE - One Ball Auto";
+  private static final String kTwoMiddle = "MIDDLE - Two Ball Auto";
   private static final String kTwoBall = "Two Ball Auto";
   private static final String kLineOnly = "Cross Line";
+  private static final String kPIDTest = "180 Turn Test";
+  private static final String kNat180 = "Nat180";
   private String m_autoSelected;
   Thread m_visionThread;
 
   public RobotContainer m_robotContainer;
+  public CommandScheduler m_scheduler; 
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public static double autoTime;
@@ -77,14 +84,19 @@ public class Robot extends TimedRobot {
   //end camera code
   
     m_chooser.setDefaultOption("One Ball Auto", kOneBall);
+    m_chooser.addOption("MIDDLE - One Ball", kOneMiddle);
+    m_chooser.addOption("MIDDLE - Two Ball", kTwoMiddle);
     m_chooser.addOption("Two Ball Auto", kTwoBall);
     m_chooser.addOption("Cross Line", kLineOnly);
+    m_chooser.addOption("180 Turn Test", kPIDTest);
+    m_chooser.addOption("Nat 180", kNat180);
     SmartDashboard.putData("Auto choices", m_chooser);
     m_robotContainer = new RobotContainer();
 }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
+   * This function is called every robot packet, no matter the
+   *  mode. Use this for items like
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
    *
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
@@ -111,7 +123,7 @@ public class Robot extends TimedRobot {
     //m_robotContainer.getAutonomousCommand();
     m_autoSelected = m_chooser.getSelected();
     //m_autoSelected = SmartDashboard.getString("Auto Selector", kOneBall);
-    System.out.println("Running Auto....?");// + m_autoSelected);
+    // + m_autoSelected);
 
     RobotContainer.m_driveTrain.drivespeed = 0.75;
     RobotContainer.m_driveTrain.rotationspeed = 0.5;
@@ -119,6 +131,12 @@ public class Robot extends TimedRobot {
     // RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.75);
     // Timer.delay(2.0);
     // RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0);
+
+    switch(m_autoSelected){
+      case kLineOnly: 
+        m_scheduler.schedule(new TurnToAngle(180, RobotContainer.m_driveTrain, RobotContainer.m_gyro, true));
+        break;
+    }
   }
 
   /** This function is called periodically during autonomous. */
@@ -128,13 +146,24 @@ public class Robot extends TimedRobot {
     RobotContainer.m_driveTrain.drivespeed = 0.75;
     RobotContainer.m_driveTrain.rotationspeed = 0.5;
 
+    //test code
+    if(RobotContainer.m_gyro.getHeading()<0){
+    final double goalAng = RobotContainer.m_gyro.getHeading() - 180;
+    } else{
+      final double goalAng = RobotContainer.m_gyro.getHeading()+180;
+    }
+    //end test code
+
     double time = Timer.getFPGATimestamp();
     double timeDiff = time - Robot.autoTime;
+
+   
     
     //I know that this works
     //RobotContainer.m_driveTrain.ArcadeDrive(0, 0.5);
     //SmartDashboard.putBoolean("Auto On", true);
 
+    //NOTE: kTwoBall is our DEFAULT CODE, but is also the fourth 
     switch (m_autoSelected) {
       case kOneBall:
             //drive robot backwards, turn off the shooter and intake (run for 1 seconds the first time, one second after we shoot)
@@ -146,19 +175,84 @@ public class Robot extends TimedRobot {
               RobotContainer.m_shooter.shooteron();
               Timer.delay(1.0);
               RobotContainer.m_intake.intakeon();
-            //turn 180 degrees
-            }else if(timeDiff >= 3.0 && timeDiff < 4.0){
+            //drive backwards
+            }else if(timeDiff >= 3.0 && timeDiff < 5.0){
               RobotContainer.m_intake.intakeoff();
               RobotContainer.m_shooter.shooteroff();
-              RobotContainer.m_driveTrain.ArcadeDrive(0.94, 0.0);
-            //drive forward;
-            }else if(timeDiff >= 4.5 && timeDiff < 7.25){
-              RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.4);
+              RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.5);
             }else{
               RobotContainer.m_intake.intakeoff();
               RobotContainer.m_shooter.shooteroff();
               RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0);
             }  
+        break;
+      case kOneMiddle:
+          //drive robot backwards, turn off the shooter and intake (run for 1 seconds the first time, one second after we shoot)
+          if(timeDiff < 0.8){
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.31);
+            SmartDashboard.putBoolean("Auto On", true);
+          //after driving for 2 seconds, shoot the preload (running for 1 sec)
+          }else if (timeDiff >= 1.0 && timeDiff < 3.0){
+            RobotContainer.m_shooter.shooteron();
+            Timer.delay(1.0);
+            RobotContainer.m_intake.intakeon();
+          //drive backwards
+          }else if(timeDiff >= 3.0 && timeDiff < 5.0){
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteroff();
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.5);
+          }else{
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteroff();
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0);
+          }  
+        break;
+      case kTwoMiddle:
+          //drive robot backwards, turn off the shooter and intake (run for 1 seconds the first time, one second after we shoot)
+          if(timeDiff < 0.8){
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.31);
+            SmartDashboard.putBoolean("Auto On", true);
+          //after driving for 2 seconds, shoot the preload (running for 1 sec)
+          }else if (timeDiff >= 1.0 && timeDiff < 3.0){
+            RobotContainer.m_shooter.shooteron();
+            Timer.delay(1.0);
+            RobotContainer.m_intake.intakeon();
+          //turn 180 degrees
+          }else if(timeDiff >= 3.0 && timeDiff < 4.5){
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteroff();
+            RobotContainer.m_driveTrain.ArcadeDrive(0.98, 0.0);
+          //drive forward; pick up preset ball in front
+          }else if(timeDiff >= 4.5 && timeDiff < 7.25){
+            RobotContainer.m_intake.intakeon();
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.4);
+          //turn 180 degrees
+          }else if(timeDiff >= 7.25 && timeDiff < 9){
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_driveTrain.ArcadeDrive(-.95,0);
+          //move forward to shooting sweet spot
+          }else if(timeDiff >= 8.75 && timeDiff < 10.5){
+            RobotContainer.m_driveTrain.ArcadeDrive(0,0.45);
+          //run the intake back briefly to set for shot
+          }else if(timeDiff >= 10.5 && timeDiff < 10.65){
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0);
+            RobotContainer.m_intake.reverseon();
+          //turn on the shot
+          }else if(timeDiff >= 10.65 && timeDiff < 10.7){
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteron();
+          //feed ball to shot, thereby shooting
+          }else if(timeDiff>=10.7 && timeDiff < 12){
+            RobotContainer.m_intake.intakeon();
+          //drive back enough to clear the initiation line
+          }else if(timeDiff >= 12 && timeDiff < 14){
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.45);
+          //turn it all off
+          } else{
+            RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0); 
+            RobotContainer.m_intake.intakeoff();
+            RobotContainer.m_shooter.shooteroff();
+          }
         break;
       case kTwoBall:
       default:
@@ -172,18 +266,18 @@ public class Robot extends TimedRobot {
               Timer.delay(1.0);
               RobotContainer.m_intake.intakeon();
             //turn 180 degrees
-            }else if(timeDiff >= 3.0 && timeDiff < 4.0){
+            }else if(timeDiff >= 3.0 && timeDiff < 4.5){
               RobotContainer.m_intake.intakeoff();
               RobotContainer.m_shooter.shooteroff();
-              RobotContainer.m_driveTrain.ArcadeDrive(0.94, 0.0);
+              RobotContainer.m_driveTrain.ArcadeDrive(0.98, 0.0);
             //drive forward; pick up preset ball in front
             }else if(timeDiff >= 4.5 && timeDiff < 7.25){
               RobotContainer.m_intake.intakeon();
               RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.4);
             //turn 180 degrees
-            }else if(timeDiff >= 7.25 && timeDiff < 8.75){
+            }else if(timeDiff >= 7.25 && timeDiff < 9){
               RobotContainer.m_intake.intakeoff();
-              RobotContainer.m_driveTrain.ArcadeDrive(-.85,0);
+              RobotContainer.m_driveTrain.ArcadeDrive(-.95,0);
             //move forward to shooting sweet spot
             }else if(timeDiff >= 8.75 && timeDiff < 10.5){
               RobotContainer.m_driveTrain.ArcadeDrive(0,0.45);
@@ -203,9 +297,9 @@ public class Robot extends TimedRobot {
               RobotContainer.m_driveTrain.ArcadeDrive(0.0, -0.45);
             //turn it all off
             } else{
-                RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0); 
-                RobotContainer.m_intake.intakeoff();
-                RobotContainer.m_shooter.shooteroff();
+              RobotContainer.m_driveTrain.ArcadeDrive(0.0, 0.0); 
+              RobotContainer.m_intake.intakeoff();
+              RobotContainer.m_shooter.shooteroff();
             }
         break;
       case kLineOnly: 
@@ -215,6 +309,13 @@ public class Robot extends TimedRobot {
             }else{
               RobotContainer.m_driveTrain.ArcadeDrive(0,0);
             }
+      case kPIDTest:
+            MotorSafety.checkMotors();
+        break;
+      case kNat180:
+            // if(RobotContainer.m_gyro.getHeading() < goalAng){
+            // }
+        break;
     }
   }
 
