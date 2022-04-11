@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveTrain_ArcadeDrive;
 import frc.robot.commands.DriveTrain_TankDrive;
+import frc.robot.commands.DriveTrain_Twist;
 import frc.robot.commands.Intake_Instant;
 import frc.robot.commands.Intake_Reverse;
 import frc.robot.commands.Shooter_Instant;
@@ -51,8 +52,10 @@ public class RobotContainer {
     public static final JoystickButton shooterButton = new JoystickButton(controller, 6);
     //public static final POVButton shooterUp =  new POVButton(controller, 0);
     //public static final POVButton shooterDown = new POVButton(controller, 180);
+    public static final JoystickButton twistButton = new JoystickButton(controller, 3);
     public static final JoystickButton winchButton = new JoystickButton(controller, 1);
     public static final JoystickButton winchRelease = new JoystickButton(controller, 2);
+    public static final JoystickButton shimmyButton = new JoystickButton(controller, 4);
 
 
     public RobotContainer() {
@@ -89,6 +92,10 @@ public class RobotContainer {
 
         //shooterUp.whenPressed();
         //shooterDown.whenPressed();
+
+        twistButton.whileHeld(new DriveTrain_Twist(0.8));
+        //note, the shimmy has no functional use. It is just funny
+        shimmyButton.whileHeld(new DriveTrain_Twist(0.4));
 
         winchButton.whenPressed(new Winch_Instant());
         winchButton.whenReleased(new Winch_Instant());

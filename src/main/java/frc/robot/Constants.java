@@ -48,6 +48,29 @@ public class Constants {
         public static final int winchmotorspeed = 4000;
 
         public static final double wheelConversion = 2 * Units.inchesToMeters(3) * Math.PI;
+
+        public static final double auto_closeSpeed = 0.62;
     }
     
+    public static final class DriveConstants{
+        public static final double MaxAlignSpeed = 0.2; 
+        public static final double kDriveP = 1;
+        public static final double kDriveI = 0;
+        public static final double kDriveD = 0;
+  
+        public static final double kPositionToleranceInches = 3;
+        public static final double feetPerSec = 0.5;
+        public static final double kPositionRateToleranceInchesPerS = feetPerSec*12;
+  
+        public static final double kTurnP = 1;
+        public static final double kTurnI = 0;
+        public static final double kTurnD = 0;
+    
+        public static final double kMaxTurnRateDegPerS = 100;
+        public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+        public static final double kMaxTurnPIDTurnSpeed = 0.2;
+          
+        public static final double kTurnToleranceDeg = 0.5;
+        public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+    }
 }

@@ -29,6 +29,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 //import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -57,7 +58,7 @@ public class DriveTrain extends SubsystemBase{
 Rotation2d poopsTemp = new Rotation2d();
 
   //setting initial restrictions on the drive and rotation speeds
-  public double drivespeed = 0.9;
+  public double drivespeed = 0.85;
   public double rotationspeed = 0.6;
   public boolean fieldoriented = false;
 
@@ -136,7 +137,7 @@ Rotation2d poopsTemp = new Rotation2d();
 
   }
 
-  public void ArcadeDrive(double xSpeed, double zRotation){
+  public void ArcadeDrive(double zRotation, double xSpeed){
 
       m_leftfollow.follow(m_leftlead);
       m_rightfollow.follow(m_rightlead);
@@ -145,7 +146,7 @@ Rotation2d poopsTemp = new Rotation2d();
 
       //no - nat
       //it literally is backwards
-      m_drive.arcadeDrive(xSpeed * rotationspeed, zRotation * drivespeed);
+      m_drive.arcadeDrive(zRotation * rotationspeed, xSpeed * drivespeed);
 
   }
 
@@ -182,5 +183,11 @@ Rotation2d poopsTemp = new Rotation2d();
   //  return new Rotation2d();
   //}
 }
+
+  public void twist(double speed){ 
+    this.ArcadeDrive(speed, 0);
+    Timer.delay(0.1);
+    this.ArcadeDrive(0,0);
+  }
 
 }
